@@ -22,6 +22,7 @@ public class BanqueServer {
 
             InitialContext ctx = new InitialContext(env);
 
+
             IBanque banque = new BanqueImpl();
 
             ctx.rebind("BANQUE", banque);
