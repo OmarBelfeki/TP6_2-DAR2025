@@ -27,6 +27,8 @@ public class BanqueServer {
 
             ctx.rebind("BANQUE", banque);
 
+            System.out.println(">>> Serveur RMI + JNDI démarré avec succès !");
+
         } catch (RemoteException | NamingException e) {
             System.out.println(e);
         }
