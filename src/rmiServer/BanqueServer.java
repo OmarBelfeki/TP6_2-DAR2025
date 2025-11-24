@@ -3,26 +3,31 @@ package rmiServer;
 import rmiService.BanqueImpl;
 import rmiService.IBanque;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.Hashtable;
 
 public class BanqueServer {
     public static void main(String[] args) {
         try{
-            LocateRegistry.createRegistry(2002);
+            Hashtable<String, String> env = new Hashtable<>();
+            env.put(Context.INITIAL_CONTEXT_FACTORY,
+                    "com.sun.jndi.rmi.registry.RegistryContextFactory");
+            env.put(Context.PROVIDER_URL, "rmi://localhost:2002");
+
+            InitialContext ctx = new InitialContext(env);
 
             IBanque banque = new BanqueImpl();
 
-            Naming.rebind("rmi://localhost:2002/BANQUE", banque);
+            ctx.rebind("BANQUE", banque);
 
-            System.out.println("Server RMI Banque demarre...");
-
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+        } catch (RemoteException | NamingException e) {
+            System.out.println(e);
         }
     }
 }

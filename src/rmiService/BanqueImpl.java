@@ -3,16 +3,15 @@ package rmiService;
 import metier.Compte;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
-public class BanqueImpl implements IBanque{
-
+public class BanqueImpl extends UnicastRemoteObject implements IBanque{
     private HashMap<Integer, Compte> comptes;
 
     public BanqueImpl() throws RemoteException{
         comptes = new HashMap<>();
     }
-
 
     @Override
     public String creerCompte(Compte c) throws RemoteException {
